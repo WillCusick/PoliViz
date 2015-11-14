@@ -1,19 +1,21 @@
 import pika
 
 class PoliConsumer(object):
-    pass
+    def __init__(self, connection, callback, channel_name='tweets'):
+        self.connection = connection
+        self.channel = connection.channel()
+        self.channel_name = channel_name
+        self.channel.queue_declare(queue=channel_name)
+        self.callback = callback
 
-def callback(ch, method, properties, body):
-    print " [x] Received %r" % (body,)
+    def consume(self):
+        self.channel.basic_consume(self.callback,
+                                   queue=self.channel_name,
+                                   no_ack=True)
+        self.channel.start_consuming()
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(
-    'localhost'))
-channel = connection.channel()
+    def __del__(self):
+        self.connection.close()
 
-channel.queue_declare(queue='tweets')
-channel.basic_consume(callback,
-                      queue='tweets',
-                      no_ack=True)
-
-print '[*] Waiting for messages. To exit press CTRL+C'
-channel.start_consuming()
+    def set_callback(self, callback):
+        self.callback = callback
