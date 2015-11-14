@@ -64,8 +64,8 @@ class PoliReceiver(object):
     def stream_filter(self, tracking):
         while True:
             try:
-                self.stream.filter(track=tracking)
-                # self.stream.sample()
+                #self.stream.filter(track=tracking)
+                self.stream.sample()
             except Exception as e:
                 print "Exception", e
                 time.sleep(10)

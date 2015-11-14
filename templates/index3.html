@@ -22,7 +22,7 @@ var map = L.mapbox.map('map', 'mzhang13.cfaa8810')
     .setView([38.83, -96.88], 5);
 
 var featureLayer = L.mapbox.featureLayer()
-    .loadURL('https://wanderdrone.appspot.com/')
+    .loadURL('/tweets.json')
     // Once this layer loads, we set a timer to load it again in a few seconds.
     .on('ready', run)
 	.on('ready', color)
@@ -33,7 +33,7 @@ function run() {
 	$('.leaflet-marker-icon').fadeOut(1000);
     window.setTimeout(function() {
 		// Check/pull
-        featureLayer.loadURL('https://wanderdrone.appspot.com/');
+        featureLayer.loadURL('/tweets.json');
 		// Re-color
 		color();
     }, 1000);
@@ -41,17 +41,17 @@ function run() {
 
 function color(e) {
 	var geojson = featureLayer.getGeoJSON();
-	// Make into array if not an array
-	geojson = [geojson];
-	for (var i = 0; i < geojson.length; i++) {
-		if (geojson[i].properties['party'] == 'republican') {
-			geojson[i].properties['marker-color'] = '#ff0000';
+// Make into array if not an array
+	for (var i = 0; i < geojson.features.length; i++) {
+		    console.log(geojson);
+		if (geojson.features[i].properties['party'] == 'republican') {
+			geojson.features[i].properties['marker-color'] = '#ff0000';
 		}
-		else if (geojson[i].properties['party'] == 'democrat') {
-			geojson[i].properties['marker-color'] = '#0000ff';
+		else if (geojson.features[i].properties['party'] == 'democrat') {
+			geojson.features[i].properties['marker-color'] = '#0000ff';
 		}
 		else {
-			geojson[i].properties['marker-color'] = '#ff9900';
+			geojson.features[i].properties['marker-color'] = '#ff9900';
 		}
 	}
 	// Re-set
