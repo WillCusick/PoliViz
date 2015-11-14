@@ -1,7 +1,7 @@
 import tweepy
 import time
 import json
-import sys
+import argparse
 
 def echo(arg):
     print arg
@@ -44,29 +44,31 @@ class PoliReceiver(object):
         listener.set_callback(echo)
         self.stream = tweepy.Stream(auth, listener, timeout=3600)
 
-    def stream_filter(self):
+    def stream_filter(self, tracking):
         while True:
             try:
-                self.stream.filter(track=['#paris'])
+                self.stream.filter(track=tracking)
             except Exception as e:
                 print "Exception", e
                 time.sleep(10)
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        conf_file_name = sys.argv[1]
-    else:
-        conf_file_name = "twit_api.conf"
-
+    parser = argparse.ArgumentParser(description='Receive Twitter Stream API events')
+    parser.add_argument('-c', '--conf', nargs='?', default='twit_api.conf',
+                        help='location of config file containing API keys')
+    parser.add_argument('hashtag', nargs='+', help='list of hashtags to track')
+    args = vars(parser.parse_args())
+    print args
+    
     config = {}
-    with open(conf_file_name) as conf:
+    with open(args['conf']) as conf:
         for line in conf:
             sep = line.index('=')
             conf_option_name = line[:sep]
             config[conf_option_name] = line[sep+1:].rstrip()
-
+        
     receiver = PoliReceiver()
     auth = tweepy.OAuthHandler(config['consumer_key'],config['consumer_secret'])
     auth.set_access_token(config['access_token_key'], config['access_token_secret'])
     receiver.setup(auth)
-    receiver.stream_filter()
+    receiver.stream_filter(args['hashtag'])
