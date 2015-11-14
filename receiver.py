@@ -2,22 +2,20 @@ import tweepy
 import time
 import json
 import argparse
-
-def echo(arg):
-    print arg
+from producer import PoliProducer
+import pika
 
 class PoliStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
-        if status.author.lang == 'en':
-            message = {'author_name': status.author.screen_name,
-                       'author_id': status.author.id,
-                       'id': status.id,
-                       'text': status.text,
-                       'coordinates': status.coordinates,
-                       'place': status.place,
-                       'time': int(time.time())}
-            self.callback(json.dumps(message))
+        message = {'author_name': status.author.screen_name,
+                   'author_id': status.author.id,
+                   'id': status.id,
+                   'text': status.text,
+                   'coordinates': status.coordinates,
+                   'place': status.place,
+                   'time': int(time.time())}
+        self.callback(json.dumps(message))
             
     def on_connect(self):
         print "Connected"
@@ -38,10 +36,10 @@ class PoliStreamListener(tweepy.StreamListener):
         self.callback = callback
 
 class PoliReceiver(object):
-    def setup(self, auth):
+    def setup(self, auth, callback):
         print "Running"
         listener = PoliStreamListener()
-        listener.set_callback(echo)
+        listener.set_callback(callback)
         self.stream = tweepy.Stream(auth, listener, timeout=3600)
 
     def stream_filter(self, tracking):
@@ -66,9 +64,13 @@ if __name__ == "__main__":
             sep = line.index('=')
             conf_option_name = line[:sep]
             config[conf_option_name] = line[sep+1:].rstrip()
-        
+
+    rmq_connection = pika.BlockingConnection(pika.ConnectionParameters(
+        'localhost'))
+    rmq_producer = PoliProducer(rmq_connection)
+
     receiver = PoliReceiver()
     auth = tweepy.OAuthHandler(config['consumer_key'],config['consumer_secret'])
     auth.set_access_token(config['access_token_key'], config['access_token_secret'])
-    receiver.setup(auth)
+    receiver.setup(auth, rmq_producer.produce)
     receiver.stream_filter(args['hashtag'])
