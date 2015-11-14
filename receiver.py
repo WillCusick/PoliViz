@@ -48,7 +48,8 @@ class PoliStreamListener(tweepy.StreamListener):
         print "Limited"
 
     def on_delete(self, status_id, user_id):
-        print "Deleted"
+        #print "Deleted"
+        pass
 
     def set_callback(self, callback):
         self.callback = callback
@@ -63,7 +64,8 @@ class PoliReceiver(object):
     def stream_filter(self, tracking):
         while True:
             try:
-                self.stream.filter(track=tracking)
+                #self.stream.filter(track=tracking)
+                self.stream.sample()
             except Exception as e:
                 print "Exception", e
                 time.sleep(10)
