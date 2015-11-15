@@ -37,7 +37,7 @@ def callback(ch, method, properties, body):
 
         # Ignore people with no direct hashtags, very rare
         if bool(tweet['properties']):
-            tweet['properties']['id'] = data['id']
+            tweet['properties']['id'] = data['id'].encode('ascii')
             store(tweet)
              
 def categorize(data):

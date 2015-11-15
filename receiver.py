@@ -25,10 +25,10 @@ class HRStreamListener(tweepy.StreamListener):
                      'name': status.place.name}
         else:
             place = None
-    
+
         message = {'author_name': status.author.screen_name,
                    'author_id': status.author.id,
-                   'id': status.id,
+                   'id': status.id_str,
                    'text': status.text,
                    'coordinates': status.coordinates,
                    'place': place,

@@ -35,10 +35,9 @@ def geoFormat(red):
     for tweet in red.smembers("tweets"):
         if tweet_count >= max_tweets_per_load:
             break
-        
+
         if prune(red, tweet):
             continue
-        
         breaking_point = tweet.find(":\\:")
         tweet_json = json.loads(tweet[:breaking_point].replace('\'','"'))
         tweet_json['type'] = 'Feature'
