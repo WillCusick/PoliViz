@@ -33,7 +33,6 @@ def geoFormat(red):
     
     tweet_count = 0
     for tweet in red.smembers("tweets"):
-        print tweet
         if tweet_count >= max_tweets_per_load:
             break
         
