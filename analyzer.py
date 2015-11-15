@@ -34,15 +34,19 @@ def callback(ch, method, properties, body):
     if geoCoords is not None:
         tweet = {'geometry': geoCoords,
                  'properties': categorize(data)}
-        store(tweet)
+
+        # Ignore people with no direct hashtags, very rare
+        if bool(tweet['properties']):
+            tweet['properties']['id'] = data['id']
+            store(tweet)
              
 def categorize(data):
     dict = {}
     for hash in data['hashtags']:
-        if hash['text'] in candidate_dict:
-            dict['candidate'] = candidate_dict[hash['text']]
-        if hash['text'] in party_dict:
-            dict['party'] = party_dict[hash['text']]
+        if hash['text'].lower() in candidate_dict:
+            dict['candidate'] = candidate_dict[hash['text'].lower()]
+        if hash['text'].lower() in party_dict:
+            dict['party'] = party_dict[hash['text'].lower()]
     return dict
             
 def store(tweet):
@@ -52,49 +56,49 @@ def store(tweet):
 if __name__ == "__main__":
     red = redis.StrictRedis(host='localhost', port=6379, db=0)
 
-    candidate_dict = {'Hillary2016': 'Hillary',
-                      'HillaryForPresident': 'Hillary',
-                      'Clinton2016': 'Hillary',
-                      'ImWithHer': 'Hillary',
-                      'Bernie2016': 'Bernie',
-                      'BernieForPresident': 'Bernie',
-                      'Sanders2016': 'Bernie',
-                      'VoteBernieSanders': 'Bernie',
-                      'FeelTheBern': 'Bernie',
-                      'DebateWithBernie': 'Bernie',
-                      'Trump2016': 'Trump',
-                      'DonaldTrumpForPresident': 'Trump',
-                      'TrumpForPresident2016': 'Trump',
-                      'VoteTrump2016': 'Trump',
-                      'VoteTrump': 'Trump',
-                      'MakeAmericaGreatAgain': 'Trump',
-                      'BenCarsonForPrez': 'Carson',
-                      'Carson2016': 'Carson',
-                      'OMalley2016': 'OMalley',
-                      'NewLeadership': 'OMalley',
-                      'ActionsNotWords': 'OMalley'}
+    candidate_dict = {'hillary2016': 'Hillary',
+                      'hillaryforpresident': 'Hillary',
+                      'clinton2016': 'Hillary',
+                      'imwithher': 'Hillary',
+                      'bernie2016': 'Bernie',
+                      'bernieforpresident': 'Bernie',
+                      'sanders2016': 'Bernie',
+                      'voteberniesanders': 'Bernie',
+                      'feelthebern': 'Bernie',
+                      'debatewithbernie': 'Bernie',
+                      'trump2016': 'Trump',
+                      'donaldtrumpforpresident': 'Trump',
+                      'trumpforpresident2016': 'Trump',
+                      'votetrump2016': 'Trump',
+                      'votetrump': 'Trump',
+                      'makeamericagreatagain': 'Trump',
+                      'bencarsonforprez': 'Carson',
+                      'carson2016': 'Carson',
+                      'omalley2016': 'OMalley',
+                      'newleadership': 'OMalley',
+                      'actionsnotwords': 'OMalley'}
 
-    party_dict = {'Hillary2016': 'democrat',
-                  'HillaryForPresident': 'democrat',
-                  'Clinton2016': 'democrat',
-                  'ImWithHer': 'democrat',
-                  'Bernie2016': 'democrat',
-                  'BernieForPresident': 'democrat',
-                  'Sanders2016': 'democrat',
-                  'VoteBernieSanders': 'democrat',
-                  'FeelTheBern':'democrat',
-                  'DebateWithBernie': 'democrat',
-                  'OMalley2016': 'democrat',
-                  'NewLeadership': 'democrat',
-                  'ActionsNotWords': 'democrat',
-                  'DonaldTrumpForPresident': 'republican',
-                  'Trump2016': 'republican',
-                  'TrumpForPresident2016': 'republican',
-                  'VoteTrump2016': 'republican',
-                  'VoteTrump': 'republican',
-                  'MakeAmericaGreatAgain': 'republican',
-                  'BenCarsonForPrez': 'republican',
-                  'Carson2016': 'republican'}
+    party_dict = {'hillary2016': 'democrat',
+                  'hillaryforpresident': 'democrat',
+                  'clinton2016': 'democrat',
+                  'imwithher': 'democrat',
+                  'bernie2016': 'democrat',
+                  'bernieforpresident': 'democrat',
+                  'sanders2016': 'democrat',
+                  'voteberniesanders': 'democrat',
+                  'feelthebern':'democrat',
+                  'debatewithbernie': 'democrat',
+                  'omalley2016': 'democrat',
+                  'newleadership': 'democrat',
+                  'actionsnotwords': 'democrat',
+                  'donaldtrumpforpresident': 'republican',
+                  'trump2016': 'republican',
+                  'trumpforpresident2016': 'republican',
+                  'votetrump2016': 'republican',
+                  'votetrump': 'republican',
+                  'makeamericagreatagain': 'republican',
+                  'bencarsonforprez': 'republican',
+                  'carson2016': 'republican'}
     
     rmq_connection = pika.BlockingConnection(
         pika.ConnectionParameters('localhost'))
