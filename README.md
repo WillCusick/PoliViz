@@ -24,6 +24,7 @@ Finally, to install HashRace, just clone this git repository.
 
 # Running
  First, make sure RabbitMQ and Redis are running. Then simply run the following:
-  	python receiver.py & python analyzer.py & python run_server.py
+
+ 	python receiver.py & python analyzer.py & python run_server.py
 
 Open your favorite browser to http://127.0.0.1:5000/
