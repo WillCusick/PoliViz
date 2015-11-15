@@ -20,6 +20,8 @@ These can be installed with pip/easy_install
 
 HashRace is also dependent on RabbitMQ and Redis. For information on how to install them, refer to their websites. RabbitMQ and Redis must be running on localhost and default ports for HashRace to recognize them.
 
+Finally, to install HashRace, just clone this git repository.
+
 # Running
  First, make sure RabbitMQ and Redis are running. Then simply run the following:
   	python receiver.py & python analyzer.py & python run_server.py
