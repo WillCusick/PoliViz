@@ -12,7 +12,7 @@ def prune(red, tweet):
     time_added = datetime.strptime(tweet[breaking_point+len_delimit:], "%Y-%m-%d %H:%M:%S.%f")
     time_now = datetime.now()
     time_elapsed = time_now - time_added
-    if time_elapsed.total_seconds() > 120:
+    if time_elapsed.total_seconds() > 600:
         red.srem("tweets", tweet)
         return True
     return False

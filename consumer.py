@@ -1,6 +1,6 @@
 import pika
 
-class PoliConsumer(object):
+class HRConsumer(object):
     def __init__(self, connection, callback, channel_name='tweets'):
         self.connection = connection
         self.channel = connection.channel()

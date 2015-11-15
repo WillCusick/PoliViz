@@ -2,10 +2,10 @@ import tweepy
 import time
 import json
 import argparse
-from producer import PoliProducer
+from producer import HRProducer
 import pika
 
-class PoliStreamListener(tweepy.StreamListener):
+class HRStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
         # Re-box the place and bounding box information because
@@ -55,10 +55,10 @@ class PoliStreamListener(tweepy.StreamListener):
     def set_callback(self, callback):
         self.callback = callback
 
-class PoliReceiver(object):
+class HRReceiver(object):
     def setup(self, auth, callback):
         print "Running"
-        listener = PoliStreamListener()
+        listener = HRStreamListener()
         listener.set_callback(callback)
         self.stream = tweepy.Stream(auth, listener, timeout=3600)
 
@@ -94,9 +94,9 @@ if __name__ == "__main__":
 
     rmq_connection = pika.BlockingConnection(
         pika.ConnectionParameters('localhost'))
-    rmq_producer = PoliProducer(rmq_connection)
+    rmq_producer = HRProducer(rmq_connection)
 
-    receiver = PoliReceiver()
+    receiver = HRReceiver()
     auth = tweepy.OAuthHandler(config['consumer_key'],
                                config['consumer_secret'])
     auth.set_access_token(config['access_token_key'],

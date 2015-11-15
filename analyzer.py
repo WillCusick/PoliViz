@@ -2,10 +2,10 @@ import pika
 import json
 import redis
 from datetime import timedelta, datetime
-from consumer import PoliConsumer
+from consumer import HRConsumer
 
 red = None
-expiryTTL = timedelta(minutes=2)
+expiryTTL = timedelta(minutes=5)
 candidate_dict = None
 party_dict = None
 
@@ -102,5 +102,5 @@ if __name__ == "__main__":
     
     rmq_connection = pika.BlockingConnection(
         pika.ConnectionParameters('localhost'))
-    rmq_consumer = PoliConsumer(rmq_connection, callback)
+    rmq_consumer = HRConsumer(rmq_connection, callback)
     rmq_consumer.consume()

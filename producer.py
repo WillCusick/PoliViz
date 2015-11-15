@@ -1,6 +1,6 @@
 import pika
 
-class PoliProducer(object):
+class HRProducer(object):
     def __init__(self, connection, channel_name='tweets'):
         self.connection = connection
         self.channel = connection.channel()
