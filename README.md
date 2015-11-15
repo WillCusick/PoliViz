@@ -7,6 +7,7 @@ We are demoing this application with the Democratic Debate. The hashtags of popu
 
 # Demo
 [Youtube video](https://youtu.be/mNBN7szEfmA)
+
 [Image](http://i.imgur.com/RBMNe4w.jpg)
 
 # Installation
