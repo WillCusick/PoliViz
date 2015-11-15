@@ -29,10 +29,11 @@ def geoFormat(red):
                          'name': 'urn:ogc:def:crs:OGC:1.3:CRS84'
                      }
                  },
-                 'features': []
-    }
+                 'features': []}
+    
     tweet_count = 0
     for tweet in red.smembers("tweets"):
+        print tweet
         if tweet_count >= max_tweets_per_load:
             break
         
@@ -40,9 +41,8 @@ def geoFormat(red):
             continue
         
         breaking_point = tweet.find(":\\:")
-        tweet_json = {'type': 'Feature'}
-        tweet_json['geometry'] = json.loads(tweet[:breaking_point].replace('\'','"'))
-        tweet_json['properties'] = {'party': 'democrat'}
+        tweet_json = json.loads(tweet[:breaking_point].replace('\'','"'))
+        tweet_json['type'] = 'Feature'
         json_dict['features'].append(tweet_json)
         tweet_count += 1
         

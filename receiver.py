@@ -25,14 +25,15 @@ class PoliStreamListener(tweepy.StreamListener):
                      'name': status.place.name}
         else:
             place = None
-        
+    
         message = {'author_name': status.author.screen_name,
                    'author_id': status.author.id,
                    'id': status.id,
                    'text': status.text,
                    'coordinates': status.coordinates,
                    'place': place,
-                   'time': int(time.time())}
+                   'time': int(time.time()),
+                   'hashtags': status.entities['hashtags']}
         self.callback(json.dumps(message))
             
     def on_connect(self):
@@ -76,9 +77,9 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--conf', nargs='?',
                         default='twit_api.conf',
                         help='location of config file containing API keys')
-    parser.add_argument('hashtag', nargs='*', default=['#Hillary2016', '#HillaryForPresident', '#Clinton2016', 'ImWithHer',
-                                                       '#Bernie2016', '#BernieForPresident', '#Sanders2016', '#VoteBernieSanders', '#FeelTheBern', "#DebateWithBernie",
-                                                       '#OMalley2016', "#NewLeadership", "#ActionsNotWords",
+    parser.add_argument('hashtag', nargs='*', default=['#Hillary2016', '#HillaryForPresident', '#Clinton2016', '#ImWithHer',
+                                                       '#Bernie2016', '#BernieForPresident', '#Sanders2016', '#VoteBernieSanders', '#FeelTheBern', '#DebateWithBernie',
+                                                       '#OMalley2016', '#NewLeadership', '#ActionsNotWords',
                                                        '#DonaldTrumpForPresident', '#Trump2016', '#TrumpForPresident2016', '#VoteTrump2016', '#VoteTrump', "#MakeAmericaGreatAgain",
                                                        '#BenCarsonForPrez', '#Carson2016'],
                         help='list of hashtags to track')
