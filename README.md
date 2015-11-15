@@ -5,6 +5,10 @@ HashRace captures in real-time what's going on in your friendly neighborhood has
 
 We are demoing this application with the Democratic Debate. The hashtags of popular candidates in the debate are tracked and colorized. We even track some of your favorite republican candidates!
 
+# Demo
+[Youtube video](https://youtu.be/mNBN7szEfmA)
+[Image](http://i.imgur.com/RBMNe4w.jpg)
+
 # Installation
 ## Dependencies
 HashRace has the following Python library dependencies:
@@ -28,3 +32,4 @@ Finally, to install HashRace, just clone this git repository.
  	python receiver.py & python analyzer.py & python run_server.py
 
 Open your favorite browser to http://127.0.0.1:5000/
+
