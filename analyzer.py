@@ -64,7 +64,6 @@ if __name__ == "__main__":
                       'DebateWithBernie': 'Bernie',
                       'Trump2016': 'Trump',
                       'DonaldTrumpForPresident': 'Trump',
-                      'Trump2016': 'Trump',
                       'TrumpForPresident2016': 'Trump',
                       'VoteTrump2016': 'Trump',
                       'VoteTrump': 'Trump',
