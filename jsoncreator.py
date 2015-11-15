@@ -36,7 +36,7 @@ def geoFormat(red):
         if tweet_count >= max_tweets_per_load:
             break
         
-        if prune(tweet):
+        if prune(red, tweet):
             continue
         
         breaking_point = tweet.find(":\\:")
