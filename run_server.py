@@ -10,7 +10,7 @@ red = None
 
 @app.route('/')
 def home_page():
-    return render_template('index3.html')
+    return render_template('index.html')
 
 @app.route('/tweets.json')
 def tweets():
