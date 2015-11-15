@@ -64,8 +64,8 @@ class PoliReceiver(object):
     def stream_filter(self, tracking):
         while True:
             try:
-                #self.stream.filter(track=tracking)
-                self.stream.sample()
+                self.stream.filter(track=tracking)
+                # self.stream.sample()
             except Exception as e:
                 print "Exception", e
                 time.sleep(10)
@@ -76,7 +76,11 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--conf', nargs='?',
                         default='twit_api.conf',
                         help='location of config file containing API keys')
-    parser.add_argument('hashtag', nargs='+',
+    parser.add_argument('hashtag', nargs='*', default=['#Hillary2016', '#HillaryForPresident', '#Clinton2016', 'ImWithHer',
+                                                       '#Bernie2016', '#BernieForPresident', '#Sanders2016', '#VoteBernieSanders', '#FeelTheBern', "#DebateWithBernie",
+                                                       '#OMalley2016', "#NewLeadership", "#ActionsNotWords",
+                                                       '#DonaldTrumpForPresident', '#Trump2016', '#TrumpForPresident2016', '#VoteTrump2016', '#VoteTrump', "#MakeAmericaGreatAgain",
+                                                       '#BenCarsonForPrez', '#Carson2016'],
                         help='list of hashtags to track')
     args = vars(parser.parse_args())
     print args
