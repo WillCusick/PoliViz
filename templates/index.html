@@ -52,11 +52,20 @@ function color(e) {
 	geojson = featureLayer.getGeoJSON();
 	
 	for (var i = 0; i < geojson.features.length; i++) {
-		if (geojson.features[i].properties['party'] == 'republican') {
+		if (geojson.features[i].properties['candidate'] == 'Trump') {
 			geojson.features[i].properties['marker-color'] = '#ff0000';
 		}
-		else if (geojson.features[i].properties['party'] == 'democrat') {
+		else if (geojson.features[i].properties['candidate'] == 'Carson') {
+			geojson.features[i].properties['marker-color'] = '#990000';
+		}
+		else if (geojson.features[i].properties['candidate'] == 'Bernie') {
+			geojson.features[i].properties['marker-color'] = '#000099';
+		}
+		else if (geojson.features[i].properties['candidate'] == 'Hillary') {
 			geojson.features[i].properties['marker-color'] = '#0000ff';
+		}
+		else if (geojson.features[i].properties['candidate'] == 'OMalley') {
+			geojson.features[i].properties['marker-color'] = '#8080ff';
 		}
 		else {
 			geojson.features[i].properties['marker-color'] = '#ff9900';
