@@ -84,7 +84,6 @@ if __name__ == "__main__":
                                                        '#BenCarsonForPrez', '#Carson2016'],
                         help='list of hashtags to track')
     args = vars(parser.parse_args())
-    print args
     
     config = {}
     with open(args['conf']) as conf:
