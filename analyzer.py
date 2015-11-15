@@ -1,10 +1,11 @@
 import pika
 import json
 import redis
-import time
+from datetime import timedelta, datetime
 from consumer import PoliConsumer
 
 red = None
+expiryTTL = timedelta(minutes=2)
 
 def callback(ch, method, properties, body):
     data = json.loads(body)
@@ -31,7 +32,7 @@ def callback(ch, method, properties, body):
             store(geoCoords)
 
 def store(data):
-    datastring = str(data) + ":\\:" + str(time.time())
+    datastring = str(data) + ":\\:" + str(datetime.now()+expiryTTL)
     red.sadd("tweets", datastring)
 
 if __name__ == "__main__":
