@@ -34,7 +34,7 @@ var featureLayer = L.mapbox.featureLayer()
 
 function run() {
 	// Fade out
-	$('.leaflet-marker-icon').fadeOut(2000);
+	// $('.leaflet-marker-icon').fadeOut(2000);
     window.setTimeout(function() {
 		// Check/pull
         featureLayer.loadURL('/tweets.json')
@@ -61,7 +61,7 @@ function color(e) {
 	// Re-set
 	featureLayer.setGeoJSON(geojson);
 	// Fade out
-	$('.leaflet-marker-icon').fadeOut(1000);
+	// $('.leaflet-marker-icon').fadeOut(1000);
 }
 
 // function color(e) {
